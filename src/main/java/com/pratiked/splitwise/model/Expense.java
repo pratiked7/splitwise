@@ -9,13 +9,13 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "expenses")
+@Entity(name = "expense")
 public class Expense extends BaseModel{
     private double amount;
     private String description;
     @Enumerated(EnumType.STRING)
     private Currency currency;
     @OneToMany
+    @JoinColumn(name = "expense_id")
     private List<UserExpense> userExpenses;
 }

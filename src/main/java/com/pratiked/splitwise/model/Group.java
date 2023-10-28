@@ -10,8 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "groups")
+@Entity(name = "group")
 public class Group extends BaseModel {
     private String name;
     private String description;
@@ -20,6 +19,7 @@ public class Group extends BaseModel {
     @Enumerated(EnumType.STRING)
     private Currency defaultCurrency;
     @OneToMany
+    @JoinColumn(name = "group_id")
     private List<Expense> expenses;
     @ManyToMany
     private List<User> users;

@@ -7,8 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "user_expenses")
+@Entity(name = "user_expense")
 public class UserExpense extends BaseModel{
 
     @ManyToOne

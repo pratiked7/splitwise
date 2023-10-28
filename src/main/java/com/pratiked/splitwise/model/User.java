@@ -12,12 +12,11 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@Entity
-@Table(name = "users")
+@Entity(name = "user")
 public class User extends BaseModel{
     private String name;
     private String email;
     private String phone;
-    @ManyToMany
+    @ManyToMany(mappedBy = "users")
     private List<Group> groups;
 }
