@@ -29,7 +29,7 @@ public class HeapBasedSettleUpStrategy implements SettleUpStrategy{
         PriorityQueue<Map.Entry<User, Double>> maxHeap = new PriorityQueue<>(
                 (a, b) -> Double.compare(b.getValue(), a.getValue())
         );
-        
+
         //min heap
         PriorityQueue<Map.Entry<User, Double>> minHeap = new PriorityQueue<>(
                 Comparator.comparingDouble(Map.Entry::getValue)
@@ -45,6 +45,29 @@ public class HeapBasedSettleUpStrategy implements SettleUpStrategy{
             }
         }
 
+        while (!minHeap.isEmpty()){
+
+            Map.Entry<User, Double> maxOwe = minHeap.poll();
+            Map.Entry<User, Double> maxGetBack = maxHeap.poll();
+
+            TransactionDTO transactionDTO = new TransactionDTO(
+                    maxOwe.getKey().getName(),
+                    maxGetBack.getKey().getName(),
+                    Math.min(Math.abs(maxOwe.getValue()), maxGetBack.getValue()));
+
+            transactions.add(transactionDTO);
+
+            double newBalance = maxOwe.getValue() + maxGetBack.getValue();
+            if(newBalance == 0){
+                System.out.println("Settled between " + maxOwe.getKey().getName() + " and " + maxGetBack.getKey().getName());
+            } else if (newBalance < 0){
+                maxOwe.setValue(newBalance);
+                minHeap.add(maxOwe);
+            } else if(newBalance > 0){
+                maxGetBack.setValue(newBalance);
+                maxHeap.add(maxGetBack);
+            }
+        }
 
         return transactions;
     }
